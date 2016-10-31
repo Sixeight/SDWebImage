@@ -23,17 +23,14 @@
     }
     
     UIImage *image;
-    NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
-    if ([imageContentType isEqualToString:@"image/gif"]) {
-        image = [UIImage sd_animatedGIFWithData:data];
-    }
 #ifdef SD_WEBP
-    else if ([imageContentType isEqualToString:@"image/webp"])
+    NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
+    if ([imageContentType isEqualToString:@"image/webp"])
     {
         image = [UIImage sd_imageWithWebPData:data];
     }
-#endif
     else {
+#endif
         image = [[UIImage alloc] initWithData:data];
         UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
         if (orientation != UIImageOrientationUp) {
@@ -41,8 +38,9 @@
                                         scale:image.scale
                                   orientation:orientation];
         }
+#ifdef SD_WEBP
     }
-
+#endif
 
     return image;
 }
